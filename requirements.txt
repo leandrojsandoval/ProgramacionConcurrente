@@ -1,1 +1,1 @@
-pygame==x.x.x
+pygame==2.6.1
