@@ -1,10 +1,14 @@
 # main.py
+import os
 import pygame
 import requests
 from pokemon import Pokemon
 
 # Inicialización de Pygame
 pygame.init()
+
+# Configura el puerto
+port = int(os.environ.get("PORT", 5000))  # 5000 es el puerto por defecto
 
 # Dimensiones de la ventana
 WIDTH, HEIGHT = 1024, 612
@@ -171,7 +175,11 @@ def battle(current_pokemon, enemy_pokemon):
     pygame.time.wait(2000)
 
 if __name__ == "__main__":
-    selected_pokemon = main_menu()
-    enemy_pokemon = bulbasaur if selected_pokemon == pikachu else pikachu
-    battle(selected_pokemon, enemy_pokemon)
-    pygame.quit()
+    try:
+        selected_pokemon = main_menu()
+        enemy_pokemon = bulbasaur if selected_pokemon == pikachu else pikachu
+        battle(selected_pokemon, enemy_pokemon)
+    except Exception as e:
+        print(f"Ocurrió un error: {e}")
+    finally:
+        pygame.quit()
