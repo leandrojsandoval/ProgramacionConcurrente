@@ -1,9 +1,16 @@
-import constants, game_context, pygame, utils
+import constants, game_context, os, pygame, random, utils
 from boton import Boton
 
 #===================================== Variables =====================================
 
+# Cargar imágenes de fondo aleatoriamente
+bg_images = [file for file in os.listdir('assets') if file.endswith(('.png', '.jpg')) and 'background' in file]
+bg_image_path = os.path.join('assets', random.choice(bg_images))  # Selecciona una imagen aleatoriamente
+bg_image = pygame.image.load(bg_image_path)
+
+# Escalar la imagen de fondo a las dimensiones de la ventana
 window = game_context.get_window()
+bg_image = pygame.transform.scale(bg_image, (constants.INITIAL_WIDTH, constants.INITIAL_HEIGHT))
 
 #===================================== Botones =====================================
 
@@ -53,7 +60,7 @@ def handle_enemy_turn(current_character, enemy_character):
     print(f"{current_character.name} ahora tiene {current_character.health} HP.")
     print("===================================================")
 
-def start_battle(current_character, enemy_character, bg_image):
+def start_battle(current_character, enemy_character):
     running = True
     turn = constants.PLAYER
     button_actions = create_buttons()
