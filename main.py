@@ -29,12 +29,11 @@ DESCANSAR = "Descansar"
 CONCENTRARSE = "Concentrarse"
 
 def create_buttons():
-    buttons = [
-        Boton(ATACAR, 0, 0, BUTTON_WIDTH, 0, (100, 200, 100), (150, 250, 150)),
-        Boton(DEFENDER, 0, 0, BUTTON_WIDTH, 0, (100, 200, 100), (150, 250, 150)),
-        Boton(DESCANSAR, 0, 0, BUTTON_WIDTH, 0, (100, 200, 100), (150, 250, 150)),
-        Boton(CONCENTRARSE, 0, 0, BUTTON_WIDTH, 0, (100, 200, 100), (150, 250, 150))
-    ]
+    buttons = []
+    for i, action in enumerate([ATACAR, DEFENDER, DESCANSAR, CONCENTRARSE]):
+        x = (INITIAL_WIDTH - (BUTTON_WIDTH * TOTAL_BUTTONS + BUTTON_SPACING * (TOTAL_BUTTONS - 1))) // 2 + i * (BUTTON_WIDTH + BUTTON_SPACING)
+        y = INITIAL_HEIGHT - 100
+        buttons.append(Boton(action, x, y, BUTTON_WIDTH, 50, (100, 200, 100), (150, 250, 150)))
     return buttons
 
 # Cargar imágenes
@@ -135,33 +134,36 @@ def draw_pokemons(current_pokemon, enemy_pokemon):
         WINDOW.blit(pygame.transform.scale(bulbasaur_image, enemy_pokemon_size), (enemy_pokemon_x, INITIAL_HEIGHT - 400))
         WINDOW.blit(pikachu_image, (current_pokemon_x, INITIAL_HEIGHT - 200))
 
-def handle_player_action(button_actions, mouse_pos, current_pokemon, enemy_pokemon):
-    for i, button in enumerate(button_actions):
-        if button.collidepoint(mouse_pos):
-            action = button_actions[i].text
-            if action == ATACAR:
-                damage = current_pokemon.attack(enemy_pokemon)
-                print(f"{current_pokemon.name} atacó a {enemy_pokemon.name} causando {current_pokemon.attack_power} de daño.")
-                print(f"{enemy_pokemon.name} ahora tiene {enemy_pokemon.health} HP.")
-                return ENEMY
-            elif action == DEFENDER:
-                current_pokemon.defend()
-                print(f"{current_pokemon.name} se está defendiendo.")
-                return ENEMY
-            elif action == DESCANSAR:
-                current_pokemon.rest()
-                print(f"{current_pokemon.name} descansó y recuperó salud.")
-                return ENEMY
-            elif action == CONCENTRARSE:
-                current_pokemon.focus()
-                print(f"{current_pokemon.name} está concentrando su ataque.")
-                return ENEMY
-    return PLAYER  # Si no se realizó ninguna acción, sigue el turno del jugador
+def handle_player_action(button, current_pokemon, enemy_pokemon):
+    action = button.text
+    if action == ATACAR:
+        damage = current_pokemon.attack(enemy_pokemon)
+        print(f"{current_pokemon.name} atacó a {enemy_pokemon.name} causando {damage} de daño.")
+        print(f"{enemy_pokemon.name} ahora tiene {enemy_pokemon.health} HP.")
+        return ENEMY
+    elif action == DEFENDER:
+        current_pokemon.defend()
+        print(f"{current_pokemon.name} se está defendiendo.")
+        return ENEMY
+    elif action == DESCANSAR:
+        current_pokemon.rest()
+        print(f"{current_pokemon.name} descansó y recuperó salud.")
+        return ENEMY
+    elif action == CONCENTRARSE:
+        current_pokemon.focus()
+        print(f"{current_pokemon.name} está concentrando su ataque.")
+        return ENEMY
+    return PLAYER
 
 def handle_enemy_turn(current_pokemon, enemy_pokemon):
     damage = enemy_pokemon.attack(current_pokemon)
     print(f"{enemy_pokemon.name} atacó a {current_pokemon.name} causando {enemy_pokemon.attack_power} de daño.")
     print(f"{current_pokemon.name} ahora tiene {current_pokemon.health} HP.")
+
+def draw_buttons(buttons, mouse_pos):
+    global WINDOW
+    for button in buttons:
+        button.draw(WINDOW, mouse_pos)
 
 def battle(current_pokemon, enemy_pokemon):
     global running
@@ -180,14 +182,13 @@ def battle(current_pokemon, enemy_pokemon):
         draw_pokemons(current_pokemon, enemy_pokemon)
 
         mouse_pos = pygame.mouse.get_pos()
-
-        for button in button_actions:
-            button.draw(WINDOW, mouse_pos)
+        draw_buttons(button_actions, mouse_pos)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and turn == PLAYER:
+                mouse_pos = event.pos
                 for button in button_actions:
                     if button.is_clicked(mouse_pos):
                         turn = handle_player_action(button, current_pokemon, enemy_pokemon)
@@ -204,7 +205,7 @@ def battle(current_pokemon, enemy_pokemon):
     winner = current_pokemon if current_pokemon.health > 0 else enemy_pokemon
     draw_text(f"{winner.name} ha ganado!", 60, 250, 250)
     pygame.display.update()
-    pygame.time.delay()
+    pygame.time.delay(2000)
 
 if __name__ == "__main__":
     selected_pokemon = main_menu()
