@@ -12,7 +12,10 @@ def load_list_characters(sprites):
             pygame.draw.rect(window, constants.BLACK, (240, 190 + i * 100, 300, 50), 2)
             try:
                 image_to_draw = sprites[character.name]['front']
-                window.blit(image_to_draw, (500, 200))
+                # Escalar la imagen a un tamaño mayor (por ejemplo, 180x180)
+                scaled_image = pygame.transform.scale(image_to_draw, (180, 180))
+                # Modificar la posición de dibujo (más abajo)
+                window.blit(scaled_image, (650, 280))  # Cambia y a 280
             except KeyError:
                 print(f"Error: El personaje {character.name} no tiene sprite cargado.")
             except Exception as e:
@@ -30,15 +33,15 @@ def handle_events():
                 direction = 1 if event.key == pygame.K_DOWN else -1
                 current_selection = (current_selection + direction) % len(characters_names)
             elif event.key == pygame.K_RETURN:
-                # Devuelve el Pokémon correspondiente al nombre seleccionado
+                # Devuelve el personaje correspondiente al nombre seleccionado
                 selected_name = characters_names[current_selection]
                 return characters[selected_name]
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = event.pos
             for i, name in enumerate(characters_names):
-                # Verificar si el mouse está sobre el área del Pokémon
+                # Verificar si el mouse está sobre el área del personaje
                 if 250 <= mouse_x <= 550 and (200 + i * 100) <= mouse_y < (250 + i * 100):
-                    return characters[name]  # Devuelve el Pokémon correspondiente al nombre
+                    return characters[name]  # Devuelve el personaje correspondiente al nombre
     return None
 
 def main_menu():
@@ -46,7 +49,7 @@ def main_menu():
     while running:
         window.fill(constants.WHITE)
         window.blit(bg_image, (0, 0))
-        utils.draw_text("Elige tu Pokémon", 60, 250, 50)
+        utils.draw_text("Elige tu Personaje", 60, 250, 50)
         load_list_characters(game_context.get_sprites())
         selected_character = handle_events()
         if selected_character is not None:

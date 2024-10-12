@@ -43,7 +43,6 @@ def download_sprite(url, character_name, type_sprite):
     if not os.path.exists(sprite_folder):
         try:
             os.makedirs(sprite_folder)
-            print(f"Carpeta '{sprite_folder}' creada.")
         except OSError as e:
             print(f"Error al crear la carpeta '{sprite_folder}': {e}")
             return
