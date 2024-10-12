@@ -1,5 +1,3 @@
-# pokemon.py
-
 class Pokemon:
     def __init__(self, name, health, attack_power, defense, sprites):
         self.name = name
@@ -11,7 +9,7 @@ class Pokemon:
         self.sprites = sprites  # Almacena las rutas locales de los sprites
 
     @classmethod
-    def from_api(cls, pokemon_data):
+    def from_json(cls, pokemon_data):
         # Extraer el nombre
         name = pokemon_data.get('name', 'No disponible')
         

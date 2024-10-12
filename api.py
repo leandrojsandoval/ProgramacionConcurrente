@@ -1,60 +1,47 @@
-import requests
-import json
-import os
+import json, os, requests
 
-# Crear las carpetas 'characters' y 'sprites' si no existen
 if not os.path.exists('characters'):
     os.makedirs('characters')
 if not os.path.exists('sprites'):
     os.makedirs('sprites')
 
-# Función para descargar imágenes de los sprites
-def descargar_sprite(url, nombre_pokemon, tipo_sprite):
+def download_sprite(url, character_name, type_sprite):
     response = requests.get(url)
     if response.status_code == 200:
-        with open(f'sprites/{nombre_pokemon}_{tipo_sprite}.png', 'wb') as file:
+        with open(f'sprites/{character_name}_{type_sprite}.png', 'wb') as file:
             file.write(response.content)
     else:
-        print(f"Error al descargar el sprite de {nombre_pokemon} ({tipo_sprite}): Código de estado {response.status_code}")
+        print(f"Error al descargar el sprite de {character_name} ({type_sprite}): Código de estado {response.status_code}")
 
-# Función para obtener y guardar información de un Pokémon dado su ID
-def obtener_pokemon_por_id(pokemon_id):
-    # URL de la API de PokeAPI para obtener información del Pokémon por ID
-    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
+def get_character_by_id(character_id):
+    url = f"https://pokeapi.co/api/v2/pokemon/{character_id}"
 
-    # Enviar la petición GET a la API
     response = requests.get(url)
 
-    # Verificar que la petición fue exitosa (código 200)
     if response.status_code == 200:
-        # Almacenar la respuesta en formato JSON
-        pokemon_datos = response.json()
+        response_data = response.json()
 
-        # Seleccionar solo 'name', 'sprites' y 'stats' del JSON
-        pokemon_filtrado = {
-            'name': pokemon_datos.get('name', 'No disponible').capitalize(),
+        character_data = {
+            'name': response_data.get('name', 'No disponible').capitalize(),
             'sprites': {
-                'front_default': pokemon_datos.get('sprites', {}).get('front_default'),
-                'back_default': pokemon_datos.get('sprites', {}).get('back_default')
+                'front_default': response_data.get('sprites', {}).get('front_default'),
+                'back_default': response_data.get('sprites', {}).get('back_default')
             },
             'stats': [{
                 'stat_name': stat['stat']['name'],
                 'base_stat': stat['base_stat']
-            } for stat in pokemon_datos.get('stats', [])]  # Las estadísticas del Pokémon
+            } for stat in response_data.get('stats', [])]  # Las estadísticas del Pokémon
         }
 
-        # Guardar el JSON filtrado en la carpeta 'characters' con el nombre del Pokémon
-        nombre_pokemon = pokemon_filtrado['name']
-        with open(f'characters/{nombre_pokemon}.json', 'w') as archivo_json:
-            json.dump(pokemon_filtrado, archivo_json, indent=4)
+        character_name = character_data['name']
+        with open(f'characters/{character_name}.json', 'w') as archivo_json:
+            json.dump(character_data, archivo_json, indent=4)
 
-        # Descargar los sprites
-        for tipo_sprite, url in pokemon_filtrado['sprites'].items():
-            descargar_sprite(url, nombre_pokemon, tipo_sprite)
+        for type_sprite, url in character_data['sprites'].items():
+            download_sprite(url, character_name, type_sprite)
 
     else:
-        print(f"Error al hacer la petición para el Pokémon ID {pokemon_id}. Código de estado: {response.status_code}")
+        print(f"Error al hacer la petición para el Personaje ID {character_id}. Código de estado: {response.status_code}")
 
-# Iterar sobre los primeros 10 Pokémon
-for pokemon_id in range(1, 11):
-    obtener_pokemon_por_id(pokemon_id)
+for character_id in range(1, 11):
+    get_character_by_id(character_id)

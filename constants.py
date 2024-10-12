@@ -1,5 +1,16 @@
+ATACAR = "Atacar"
+BLACK = (0, 0, 0)
 BUTTON_SPACING = 20
 BUTTON_WIDTH = 150
+CONCENTRARSE = "Concentrarse"
+DARK_GRAY = (105, 105, 105)
+DEFENDER = "Defender"
+DESCANSAR = "Descansar"
+ENEMY = "Enemy"
+GAME_NAME = "Combate Concurrente"
+GRAY = (169, 169, 169)
 INITIAL_HEIGHT = 768
 INITIAL_WIDTH = 1024
+PLAYER = "Player"
 TOTAL_BUTTONS = 4
+WHITE = (255, 255, 255)
