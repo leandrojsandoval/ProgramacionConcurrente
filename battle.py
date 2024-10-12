@@ -67,6 +67,7 @@ def start_battle(current_character, enemy_character, bg_image):
             running = False
             continue
 
+        # Dibuja los personajes en sus nuevas posiciones utilizando la función mejorada
         utils.draw_characters(current_character, enemy_character)
 
         mouse_pos = pygame.mouse.get_pos()

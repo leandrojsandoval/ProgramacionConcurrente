@@ -12,13 +12,27 @@ def draw_buttons(buttons, mouse_pos):
         button.draw(window, mouse_pos)
 
 def draw_characters(current_character, enemy_character):
-    current_character_x = constants.INITIAL_WIDTH // 2
-    enemy_character_x = constants.INITIAL_WIDTH // 2
-    enemy_character_size = (int(sprites[enemy_character.name]['front'].get_width() * 1.5), int(sprites[enemy_character.name]['front'].get_height() * 1.5))
+    # Ajusta el tamaño de los sprites
+    scale_factor = 3  # Aumenta el tamaño del sprite al 220%
 
-    window.blit(sprites[current_character.name]['back'], (current_character_x, constants.INITIAL_HEIGHT - 200))
+    # Posiciones de los personajes
+    current_character_x = (constants.INITIAL_WIDTH // 2) - 375  # Más a la izquierda
+    current_character_y = constants.INITIAL_HEIGHT - 400  # Un poco más arriba
 
-    window.blit(pygame.transform.scale(sprites[enemy_character.name]['front'], enemy_character_size), (enemy_character_x, constants.INITIAL_HEIGHT - 600))
+    enemy_character_x = (constants.INITIAL_WIDTH // 2) + 50  # Un poco más a la derecha
+    enemy_character_y = constants.INITIAL_HEIGHT - 650 # Mantiene la altura original o ajústala si es necesario
+
+    # Escala y dibuja los sprites
+    window.blit(pygame.transform.scale(sprites[current_character.name]['back'], 
+               (int(sprites[current_character.name]['back'].get_width() * scale_factor), 
+                int(sprites[current_character.name]['back'].get_height() * scale_factor))), 
+                (current_character_x, current_character_y))
+
+    enemy_character_size = (int(sprites[enemy_character.name]['front'].get_width() * scale_factor), 
+                             int(sprites[enemy_character.name]['front'].get_height() * scale_factor))
+
+    window.blit(pygame.transform.scale(sprites[enemy_character.name]['front'], enemy_character_size), 
+                (enemy_character_x, enemy_character_y))
 
 def draw_text(text, size, x, y):
     font = pygame.font.Font(None, size)
