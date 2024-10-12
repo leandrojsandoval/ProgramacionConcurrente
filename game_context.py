@@ -3,6 +3,7 @@ from pokemon import Pokemon
 
 #===================================== Ventana =====================================
 
+
 window = pygame.display.set_mode((constants.INITIAL_WIDTH, constants.INITIAL_HEIGHT))
 pygame.display.set_caption(constants.GAME_NAME)
 
@@ -16,7 +17,7 @@ def load_characters_from_json():
         os.makedirs(constants.NAME_FOLDER_CHARACTERS)
 
     # Descargar personajes solo si faltan archivos JSON
-    for character_id in range(1, 11):
+    for character_id in range(1, constants.CANTIDAD_DE_PERSONAJES):
         character_file = f'{constants.NAME_FOLDER_CHARACTERS}/pokemon_{character_id}.json'
         if not os.path.exists(character_file):
             api.get_character_by_id(constants.URL_API, character_id, constants.NAME_FOLDER_CHARACTERS)

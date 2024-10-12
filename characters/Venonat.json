@@ -1,0 +1,33 @@
+{
+    "name": "Venonat",
+    "sprites": {
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/48.png",
+        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/48.png"
+    },
+    "stats": [
+        {
+            "stat_name": "hp",
+            "base_stat": 60
+        },
+        {
+            "stat_name": "attack",
+            "base_stat": 55
+        },
+        {
+            "stat_name": "defense",
+            "base_stat": 50
+        },
+        {
+            "stat_name": "special-attack",
+            "base_stat": 40
+        },
+        {
+            "stat_name": "special-defense",
+            "base_stat": 55
+        },
+        {
+            "stat_name": "speed",
+            "base_stat": 45
+        }
+    ]
+}
