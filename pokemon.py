@@ -1,13 +1,14 @@
 # pokemon.py
 
 class Pokemon:
-    def __init__(self, name, health, attack_power, defense):
+    def __init__(self, name, health, attack_power, defense, sprites):
         self.name = name
         self.health = health
         self.attack_power = attack_power
         self.defense = defense
         self.defense_multiplier = 1.0  # Para controlar la defensa
         self.focused_attack_multiplier = 1.0  # Para controlar el ataque concentrado
+        self.sprites = sprites  # Almacena las rutas locales de los sprites
 
     @classmethod
     def from_api(cls, pokemon_data):
@@ -21,7 +22,7 @@ class Pokemon:
         try:
             # Suponiendo que 'stats' contiene las estadísticas necesarias
             for stat in pokemon_data.get('stats', []):
-                stat_name = stat['stat_name']  # Cambiado para acceder a 'stat_name'
+                stat_name = stat['stat_name']  # Acceso a 'stat_name'
                 stat_value = stat['base_stat']
                 if stat_name in stats:  # Solo guardamos lo que necesitamos
                     stats[stat_name] = stat_value
@@ -33,7 +34,13 @@ class Pokemon:
         attack_power = stats.get('attack', 0)
         defense = stats.get('defense', 0)
         
-        return cls(name, health, attack_power, defense)
+        # Aquí se almacenan las rutas locales de los sprites
+        sprites = {
+            'front_default': f'sprites/{name.lower()}_front_default.png',
+            'back_default': f'sprites/{name.lower()}_back_default.png'
+        }
+
+        return cls(name.capitalize(), health, attack_power, defense, sprites)  # Capitaliza el nombre
 
     def attack(self, other):
         damage = self.attack_power * self.focused_attack_multiplier
