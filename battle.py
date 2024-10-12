@@ -2,7 +2,7 @@ import pygame
 from boton import Boton
 from main import draw_text
 from game_context_singleton import Singleton
-import constantes
+import constants
 
 #===================================== Constantes =====================================
 
@@ -26,9 +26,9 @@ def create_buttons():
     buttons = []
     for i, action in enumerate([ATACAR, DEFENDER, DESCANSAR, CONCENTRARSE]):
 
-        x = (constantes.INITIAL_WIDTH - (constantes.BUTTON_WIDTH * constantes.TOTAL_BUTTONS + constantes.BUTTON_SPACING * (constantes.TOTAL_BUTTONS - 1))) // 2 + i * (constantes.BUTTON_WIDTH + constantes.BUTTON_SPACING)
-        y = constantes.INITIAL_HEIGHT - 100
-        buttons.append(Boton(action, x, y, constantes.BUTTON_WIDTH, 50, (100, 200, 100), (150, 250, 150)))
+        x = (constants.INITIAL_WIDTH - (constants.BUTTON_WIDTH * constants.TOTAL_BUTTONS + constants.BUTTON_SPACING * (constants.TOTAL_BUTTONS - 1))) // 2 + i * (constants.BUTTON_WIDTH + constants.BUTTON_SPACING)
+        y = constants.INITIAL_HEIGHT - 100
+        buttons.append(Boton(action, x, y, constants.BUTTON_WIDTH, 50, (100, 200, 100), (150, 250, 150)))
     return buttons
 
 #===================================== Dibujo =====================================
@@ -42,13 +42,13 @@ def draw_buttons(buttons, mouse_pos):
         button.draw(window, mouse_pos)
 
 def draw_pokemons(current_pokemon, enemy_pokemon, sprites):
-    current_pokemon_x = constantes.INITIAL_WIDTH // 2
-    enemy_pokemon_x = constantes.INITIAL_WIDTH // 2
+    current_pokemon_x = constants.INITIAL_WIDTH // 2
+    enemy_pokemon_x = constants.INITIAL_WIDTH // 2
     enemy_pokemon_size = (int(sprites[enemy_pokemon.name]['front'].get_width() * 1.5), int(sprites[enemy_pokemon.name]['front'].get_height() * 1.5))
 
-    window.blit(sprites[current_pokemon.name]['back'], (current_pokemon_x, constantes.INITIAL_HEIGHT - 200))
+    window.blit(sprites[current_pokemon.name]['back'], (current_pokemon_x, constants.INITIAL_HEIGHT - 200))
 
-    window.blit(pygame.transform.scale(sprites[enemy_pokemon.name]['front'], enemy_pokemon_size), (enemy_pokemon_x, constantes.INITIAL_HEIGHT - 600))
+    window.blit(pygame.transform.scale(sprites[enemy_pokemon.name]['front'], enemy_pokemon_size), (enemy_pokemon_x, constants.INITIAL_HEIGHT - 600))
 
 #===================================== Batalla =====================================
 
