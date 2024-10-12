@@ -32,7 +32,7 @@ def obtener_pokemon_por_id(pokemon_id):
 
         # Seleccionar solo 'name', 'sprites' y 'stats' del JSON
         pokemon_filtrado = {
-            'name': pokemon_datos.get('name', 'No disponible'),
+            'name': pokemon_datos.get('name', 'No disponible').capitalize(),
             'sprites': {
                 'front_default': pokemon_datos.get('sprites', {}).get('front_default'),
                 'back_default': pokemon_datos.get('sprites', {}).get('back_default')
@@ -52,15 +52,6 @@ def obtener_pokemon_por_id(pokemon_id):
         for tipo_sprite, url in pokemon_filtrado['sprites'].items():
             descargar_sprite(url, nombre_pokemon, tipo_sprite)
 
-        # Mostrar la información filtrada en consola
-        print(f"Nombre: {pokemon_filtrado['name']}")
-        print("Sprites descargados:")
-        for tipo_sprite in pokemon_filtrado['sprites']:
-            print(f"  {tipo_sprite}: sprites/{nombre_pokemon}_{tipo_sprite}.png")
-
-        print("Stats:")
-        for stat in pokemon_filtrado['stats']:
-            print(f"  {stat['stat_name']}: {stat['base_stat']}")
     else:
         print(f"Error al hacer la petición para el Pokémon ID {pokemon_id}. Código de estado: {response.status_code}")
 
