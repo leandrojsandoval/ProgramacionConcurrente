@@ -1,0 +1,35 @@
+{
+    "name": "venusaur",
+    "sprites": {
+        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/back/3.png",
+        "back_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/back/shiny/3.png",
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/3.png",
+        "front_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/shiny/3.png"
+    },
+    "stats": [
+        {
+            "stat_name": "hp",
+            "base_stat": 80
+        },
+        {
+            "stat_name": "attack",
+            "base_stat": 82
+        },
+        {
+            "stat_name": "defense",
+            "base_stat": 83
+        },
+        {
+            "stat_name": "special-attack",
+            "base_stat": 100
+        },
+        {
+            "stat_name": "special-defense",
+            "base_stat": 100
+        },
+        {
+            "stat_name": "speed",
+            "base_stat": 80
+        }
+    ]
+}

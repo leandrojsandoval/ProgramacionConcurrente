@@ -1,0 +1,35 @@
+{
+    "name": "wartortle",
+    "sprites": {
+        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/back/8.png",
+        "back_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/back/shiny/8.png",
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/8.png",
+        "front_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/shiny/8.png"
+    },
+    "stats": [
+        {
+            "stat_name": "hp",
+            "base_stat": 59
+        },
+        {
+            "stat_name": "attack",
+            "base_stat": 63
+        },
+        {
+            "stat_name": "defense",
+            "base_stat": 80
+        },
+        {
+            "stat_name": "special-attack",
+            "base_stat": 65
+        },
+        {
+            "stat_name": "special-defense",
+            "base_stat": 80
+        },
+        {
+            "stat_name": "speed",
+            "base_stat": 58
+        }
+    ]
+}

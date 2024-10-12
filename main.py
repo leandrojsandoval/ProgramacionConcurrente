@@ -138,20 +138,28 @@ def handle_player_action(button, current_pokemon, enemy_pokemon):
     action = button.text
     if action == ATACAR:
         damage = current_pokemon.attack(enemy_pokemon)
+        print("===================================================")
         print(f"{current_pokemon.name} atacó a {enemy_pokemon.name} causando {damage} de daño.")
         print(f"{enemy_pokemon.name} ahora tiene {enemy_pokemon.health} HP.")
+        print("===================================================")
         return ENEMY
     elif action == DEFENDER:
+        print("===================================================")
         current_pokemon.defend()
         print(f"{current_pokemon.name} se está defendiendo.")
+        print("===================================================")
         return ENEMY
     elif action == DESCANSAR:
+        print("===================================================")
         current_pokemon.rest()
         print(f"{current_pokemon.name} descansó y recuperó salud.")
+        print("===================================================")
         return ENEMY
     elif action == CONCENTRARSE:
+        print("===================================================")
         current_pokemon.focus()
         print(f"{current_pokemon.name} está concentrando su ataque.")
+        print("===================================================")
         return ENEMY
     return PLAYER
 
@@ -159,6 +167,7 @@ def handle_enemy_turn(current_pokemon, enemy_pokemon):
     damage = enemy_pokemon.attack(current_pokemon)
     print(f"{enemy_pokemon.name} atacó a {current_pokemon.name} causando {enemy_pokemon.attack_power} de daño.")
     print(f"{current_pokemon.name} ahora tiene {current_pokemon.health} HP.")
+    print("===================================================")
 
 def draw_buttons(buttons, mouse_pos):
     global WINDOW
@@ -194,14 +203,12 @@ def battle(current_pokemon, enemy_pokemon):
                         turn = handle_player_action(button, current_pokemon, enemy_pokemon)
                         break
 
-        # Turno del enemigo
         if turn == ENEMY:
             handle_enemy_turn(current_pokemon, enemy_pokemon)
             turn = PLAYER
 
         pygame.display.update()
 
-    # Mostrar ganador
     winner = current_pokemon if current_pokemon.health > 0 else enemy_pokemon
     draw_text(f"{winner.name} ha ganado!", 60, 250, 250)
     pygame.display.update()
