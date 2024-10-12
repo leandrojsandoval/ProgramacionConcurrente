@@ -91,4 +91,3 @@ def start_battle(current_character, enemy_character, bg_image):
     winner = current_character if current_character.health > 0 else enemy_character
     utils.draw_text(f"{winner.name} ha ganado!", 60, 250, 250)
     pygame.display.update()
-    pygame.time.delay(2000)
