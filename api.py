@@ -2,9 +2,20 @@ import requests
 import json
 import os
 
-# Crear la carpeta 'characters' si no existe
+# Crear las carpetas 'characters' y 'sprites' si no existen
 if not os.path.exists('characters'):
     os.makedirs('characters')
+if not os.path.exists('sprites'):
+    os.makedirs('sprites')
+
+# Función para descargar imágenes de los sprites
+def descargar_sprite(url, nombre_pokemon, tipo_sprite):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(f'sprites/{nombre_pokemon}_{tipo_sprite}.png', 'wb') as file:
+            file.write(response.content)
+    else:
+        print(f"Error al descargar el sprite de {nombre_pokemon} ({tipo_sprite}): Código de estado {response.status_code}")
 
 # Función para obtener y guardar información de un Pokémon dado su ID
 def obtener_pokemon_por_id(pokemon_id):
@@ -22,7 +33,10 @@ def obtener_pokemon_por_id(pokemon_id):
         # Seleccionar solo 'name', 'sprites' y 'stats' del JSON
         pokemon_filtrado = {
             'name': pokemon_datos.get('name', 'No disponible'),
-            'sprites': pokemon_datos.get('sprites', {}).get('versions', {}).get('generation-iii', {}).get('firered-leafgreen', {}),  # Sprites de FR/LG
+            'sprites': {
+                'front_default': pokemon_datos.get('sprites', {}).get('front_default'),
+                'back_default': pokemon_datos.get('sprites', {}).get('back_default')
+            },
             'stats': [{
                 'stat_name': stat['stat']['name'],
                 'base_stat': stat['base_stat']
@@ -34,11 +48,15 @@ def obtener_pokemon_por_id(pokemon_id):
         with open(f'characters/{nombre_pokemon}.json', 'w') as archivo_json:
             json.dump(pokemon_filtrado, archivo_json, indent=4)
 
+        # Descargar los sprites
+        for tipo_sprite, url in pokemon_filtrado['sprites'].items():
+            descargar_sprite(url, nombre_pokemon, tipo_sprite)
+
         # Mostrar la información filtrada en consola
         print(f"Nombre: {pokemon_filtrado['name']}")
-        print("Sprites:")
-        for key, value in pokemon_filtrado['sprites'].items():
-            print(f"  {key}: {value}")
+        print("Sprites descargados:")
+        for tipo_sprite in pokemon_filtrado['sprites']:
+            print(f"  {tipo_sprite}: sprites/{nombre_pokemon}_{tipo_sprite}.png")
 
         print("Stats:")
         for stat in pokemon_filtrado['stats']:
