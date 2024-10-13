@@ -5,11 +5,11 @@ from button import Button
 
 # Cargar imágenes de fondo aleatoriamente
 bg_images = [
-    file for file in os.listdir("assets")
+    file for file in os.listdir(constants.NAME_FOLDER_BACKGROUNDS)
     if file.endswith((".png", ".jpg")) and "background" in file
 ]
 bg_image_path = os.path.join(
-    "assets", random.choice(bg_images))  # Selecciona una imagen aleatoriamente
+    constants.NAME_FOLDER_BACKGROUNDS, random.choice(bg_images))  # Selecciona una imagen aleatoriamente
 bg_image = pygame.image.load(bg_image_path)
 
 # Escalar la imagen de fondo a las dimensiones de la ventana

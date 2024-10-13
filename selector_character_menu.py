@@ -2,7 +2,7 @@ import constants, game_context, pygame, utils
 
 # =========================================== Variables ===========================================
 
-bg_image = pygame.image.load("assets/background_waterfalls.jpg")
+bg_image = pygame.image.load(constants.NAME_FOLDER_BACKGROUNDS + "/background_waterfalls.jpg")
 characters = game_context.get_characters()
 current_selection = 0
 first_visible_index = 0  # Índice del primer personaje visible
@@ -103,7 +103,7 @@ def main_menu():
     while running:
         window.fill(constants.COLOR_WHITE_TUPLE)
         window.blit(bg_image, (0, 0))
-        utils.draw_text("Elige tu Personaje", constants.FONT_GAMEPLAY,
+        utils.draw_text(constants.ELIGE_TU_PERSONAJE, constants.FONT_GAMEPLAY,
                         constants.SIZE_FONT_TITLE_CHARACTER,
                         constants.COLOR_BLACK_TUPLE, 250, 50)
         load_list_characters(game_context.get_sprites())

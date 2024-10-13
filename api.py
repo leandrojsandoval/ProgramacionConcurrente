@@ -10,18 +10,19 @@ def get_character_by_id(url, character_id, path_folder_characters):
         response_data = response.json()
 
         character_data = {
-            "name": response_data.get("name", "No disponible").capitalize(),
+            "name":
+            response_data.get("name", "No disponible").capitalize(),
             "sprites": {
-                "front_default": response_data.get("sprites",
-                                                   {}).get("front_default"),
-                "back_default": response_data.get("sprites",
-                                                  {}).get("back_default"),
+                "front_default":
+                response_data.get("sprites", {}).get("front_default"),
+                "back_default":
+                response_data.get("sprites", {}).get("back_default"),
             },
             "stats": [{
                 "stat_name": stat["stat"]["name"],
                 "base_stat": stat["base_stat"]
             } for stat in response_data.get("stats", [])
-                     ],  # Las estadísticas del Pokémon
+                      ],  # Las estadísticas del Pokémon
         }
 
         character_name = character_data["name"]

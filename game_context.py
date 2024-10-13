@@ -17,13 +17,10 @@ def load_characters_from_json():
     if not os.path.exists(constants.NAME_FOLDER_CHARACTERS):
         os.makedirs(constants.NAME_FOLDER_CHARACTERS)
 
-    # Descargar personajes solo si faltan archivos JSON
-    for character_id in range(1, constants.CANTIDAD_DE_PERSONAJES):
-        character_file = (
-            f"{constants.NAME_FOLDER_CHARACTERS}/pokemon_{character_id}.json")
-        if not os.path.exists(character_file):
-            api.get_character_by_id(constants.URL_API, character_id,
-                                    constants.NAME_FOLDER_CHARACTERS)
+    # Descargar personajes
+    for character_id in range(1, constants.CANTIDAD_DE_PERSONAJES + 1):
+        api.get_character_by_id(constants.URL_API, character_id,
+                                constants.NAME_FOLDER_CHARACTERS)
 
     # Cargar los archivos JSON existentes
     for archivo in os.listdir(constants.NAME_FOLDER_CHARACTERS):
