@@ -129,14 +129,20 @@ def update_background_animation(frames, current_frame, frame_counter,
     window.blit(frames[current_frame], (0, 0))
     return current_frame, frame_counter
 
-def check_change_icon_cursor(first_button, second_button=None):
+def check_change_icon_cursor(required_button, *optional_buttons):
     # Obtener la posición del mouse
     mouse_x, mouse_y = pygame.mouse.get_pos()
     
-    # Cambiar el cursor según la posición del mouse
-    if first_button.rect.collidepoint(mouse_x, mouse_y):
+    # Comprobar si el cursor está sobre el botón obligatorio
+    if required_button.rect.collidepoint(mouse_x, mouse_y):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
-    elif second_button and second_button.rect.collidepoint(mouse_x, mouse_y):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema
+        return  # No chequeamos más botones si estamos sobre el obligatorio
+    
+    # Comprobar los botones opcionales
+    for button in optional_buttons:
+        if button.rect.collidepoint(mouse_x, mouse_y):
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
+            return
+
+    # Si no se colisiona con ningún botón, se restablece el cursor
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema

@@ -93,6 +93,8 @@ def confirm_exit(frames, current_frame, frame_counter):
         # Manejar eventos
         action = handle_events(confirm_button, cancel_button)
         if action is True:  # Cancelar, volver al menú principal
-            waiting = False
+            waiting = False  # Salir del bucle, volver al menú
         elif action is False:  # Confirmar salida
-            return False
+            return False  # Cerrar el juego
+
+    return True  # Volver al menú principal (en caso de que la lógica lo requiera)

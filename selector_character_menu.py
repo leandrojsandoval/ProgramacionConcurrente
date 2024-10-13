@@ -2,14 +2,17 @@ import constants, game_context, pygame, utils
 
 # =========================================== Variables ===========================================
 
-bg_image = pygame.image.load(constants.NAME_FOLDER_BACKGROUNDS + "/background_waterfalls.jpg")
+bg_image = pygame.image.load(constants.NAME_FOLDER_BACKGROUNDS +
+                             "/background_waterfalls.jpg")
+bg_image = pygame.transform.scale(
+    bg_image, (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
 characters = game_context.get_characters()
 current_selection = 0
 first_visible_index = 0  # Índice del primer personaje visible
 visible_characters_count = 5  # Número de personajes visibles en la pantalla
 window = game_context.get_window()
 
-# =========================================== Sprite ===========================================
+# =========================================== Interfaz ===========================================
 
 
 def load_list_characters(sprites):
@@ -35,7 +38,9 @@ def load_list_characters(sprites):
     selected_character = list(characters.values())[current_selection]
     try:
         image_to_draw = sprites[selected_character.name]["front"]
-        scaled_image = pygame.transform.scale(image_to_draw, (180, 180))
+        scaled_image = pygame.transform.scale(
+            image_to_draw, (constants.SIZE_X_CHARACTER_SELECTED,
+                            constants.SIZE_Y_CHARACTER_SELECTED))
         window.blit(
             scaled_image,
             (
@@ -99,6 +104,9 @@ def handle_events():
 
 
 def main_menu():
+    # Establecer el cursor predeterminado al inicio
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
     running = True
     while running:
         window.fill(constants.COLOR_WHITE_TUPLE)

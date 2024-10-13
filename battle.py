@@ -18,7 +18,7 @@ window = game_context.get_window()
 bg_image = pygame.transform.scale(
     bg_image, (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
 
-# ===================================== Botones =====================================
+# ===================================== Interfaz =====================================
 
 
 def create_actions_buttons():
@@ -124,6 +124,9 @@ def start_battle(current_character, enemy_character):
     turn = constants.PLAYER
     button_actions = create_actions_buttons()
 
+    # Establecer el cursor predeterminado al inicio
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
     while running:
         window.blit(bg_image, (0, 0))
 
@@ -136,6 +139,9 @@ def start_battle(current_character, enemy_character):
         utils.draw_characters(current_character, enemy_character)
 
         utils.draw_buttons(button_actions)
+
+        # Cambiar el icono del cursor según la posición del mouse
+        utils.check_change_icon_cursor(button_actions[0], *button_actions[1:])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -153,6 +159,9 @@ def start_battle(current_character, enemy_character):
             turn = constants.PLAYER
 
         pygame.display.update()
+
+    # Establecer el cursor predeterminado al inicio
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     # Declarar el ganador
     winner = current_character if current_character.health > 0 else enemy_character
