@@ -1,4 +1,4 @@
-import constants, game_context, pygame
+import constants, game_context, os, pygame
 
 window = game_context.get_window()
 sprites = game_context.get_sprites()
@@ -85,6 +85,46 @@ def calculate_centered_x_position(text, font_filename, font_size):
     text_surface = font.render(text, True, constants.COLOR_WHITE_TUPLE)
     return (window.get_width() - text_surface.get_width()) // 2
 
+
 def split_text(text):
     words = text.split()
     return words
+
+
+def position_buttons(first_option_button, second_option_button):
+    total_width = (
+        first_option_button.rect.width +
+        second_option_button.rect.width) + constants.BUTTONS_SPACING_MAIN_MENU
+    start_x = get_center_text_position_x(total_width)
+
+    # Asignar las posiciones a los botones
+    first_option_button.rect.x = start_x
+    first_option_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
+
+    second_option_button.rect.x = (start_x + first_option_button.rect.width +
+                                   constants.BUTTONS_SPACING_MAIN_MENU)
+    second_option_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
+
+
+def load_animation_frames(path_frames, frame_base_name):
+    frames = []
+    all_files = os.listdir(path_frames)
+    for file_name in all_files:
+        if file_name.startswith(frame_base_name) and file_name.endswith(
+                constants.EXTENSION_PNG):
+            frame_path = os.path.join(path_frames, file_name)
+            frame_image = pygame.image.load(frame_path)
+            frame_image = pygame.transform.scale(
+                frame_image, (window.get_width(), window.get_height()))
+            frames.append(frame_image)
+    return frames
+
+
+def update_background_animation(frames, current_frame, frame_counter,
+                                frame_delay):
+    frame_counter += 1
+    if frame_counter >= frame_delay:
+        frame_counter = 0
+        current_frame = (current_frame + 1) % len(frames)
+    window.blit(frames[current_frame], (0, 0))
+    return current_frame, frame_counter
