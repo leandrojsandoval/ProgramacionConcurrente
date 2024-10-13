@@ -33,6 +33,17 @@ def handle_events(play_button, exit_button):
                 return constants.PLAY_ACTION
             if exit_button.is_clicked():
                 return constants.EXIT_ACTION
+
+    # Obtener la posición del mouse
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
+    # Cambiar el cursor según la posición del mouse
+    if play_button.rect.collidepoint(mouse_x, mouse_y) or exit_button.rect.collidepoint(mouse_x, mouse_y):
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
+    else:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema
+
+
     return None
 
 
@@ -80,6 +91,9 @@ def show_start_screen():
     frame_counter = 0  # Contador para manejar la animación
 
     words_game_name = utils.split_text(constants.GAME_NAME)
+
+    # Establecer el cursor predeterminado al inicio
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     while True:
         # Animar el fondo
