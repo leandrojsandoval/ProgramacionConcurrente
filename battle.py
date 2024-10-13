@@ -10,17 +10,31 @@ bg_image = pygame.image.load(bg_image_path)
 
 # Escalar la imagen de fondo a las dimensiones de la ventana
 window = game_context.get_window()
-bg_image = pygame.transform.scale(bg_image, (constants.INITIAL_WIDTH, constants.INITIAL_HEIGHT))
+bg_image = pygame.transform.scale(bg_image, (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
 
 #===================================== Botones =====================================
 
-def create_buttons():
+def create_actions_buttons():
     buttons = []
+    button_colors = [
+        constants.COLOR_ORANGE_TUPLE,
+        constants.COLOR_CYAN_TUPLE,
+        constants.COLOR_YELLOW_TUPLE,
+        constants.COLOR_GREEN_TUPLE
+    ]
+    button_colors_hover = [
+        constants.COLOR_LIGHT_ORANGE_TUPLE,
+        constants.COLOR_LIGHT_CYAN_TUPLE,
+        constants.COLOR_LIGHT_YELLOW_TUPLE,
+        constants.COLOR_LIGHT_GREEN_TUPLE
+    ]
     button_font = pygame.font.Font(constants.PATH_FONTS + constants.FONT_GAMEPLAY, constants.SIZE_FONT_BUTTONS_BATTLE_MENU)
     for i, action in enumerate([constants.ATACAR, constants.DEFENDER, constants.DESCANSAR, constants.CONCENTRARSE]):
-        x = (constants.INITIAL_WIDTH - (constants.BUTTON_WIDTH * constants.TOTAL_BUTTONS + constants.BUTTONS_SPACING_BATTLE_ACTIONS * (constants.TOTAL_BUTTONS - 1))) // 2 + i * (constants.BUTTON_WIDTH + constants.BUTTONS_SPACING_BATTLE_ACTIONS)
-        y = constants.INITIAL_HEIGHT - 100
-        buttons.append(Button(action, x, y, constants.BUTTON_WIDTH, 50, constants.COLOR_GREEN_TUPLE, constants.COLOR_LIGHT_GREEN_TUPLE, constants.COLOR_BLACK_TUPLE, constants.PIXELS_BORDER_BUTTON, button_font))
+        position_x = (constants.WINDOW_WIDTH - (constants.BUTTON_WIDTH * constants.TOTAL_BUTTONS + constants.BUTTONS_SPACING_BATTLE_ACTIONS * (constants.TOTAL_BUTTONS - 1))) // 2 + i * (constants.BUTTON_WIDTH + constants.BUTTONS_SPACING_BATTLE_ACTIONS)
+        position_y = constants.WINDOW_HEIGHT - 100
+        button_color = button_colors[i]
+        button_hover_color = button_colors_hover[i]
+        buttons.append(Button(action, position_x, position_y, constants.BUTTON_WIDTH, 50, button_color , button_hover_color, constants.COLOR_BLACK_TUPLE, constants.PIXELS_BORDER_BUTTON, button_font))
     return buttons
 
 #===================================== Batalla =====================================
@@ -69,7 +83,7 @@ from selector_character_menu import main_menu  # Importa la función main_menu
 def start_battle(current_character, enemy_character):
     running = True
     turn = constants.PLAYER
-    button_actions = create_buttons()
+    button_actions = create_actions_buttons()
 
     while running:
         window.blit(bg_image, (0, 0))

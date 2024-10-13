@@ -4,7 +4,7 @@ from pokemon import Pokemon
 #===================================== Ventana =====================================
 
 
-window = pygame.display.set_mode((constants.INITIAL_WIDTH, constants.INITIAL_HEIGHT))
+window = pygame.display.set_mode((constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
 pygame.display.set_caption(constants.GAME_NAME)
 
 #===================================== Personajes =====================================

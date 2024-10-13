@@ -1,7 +1,9 @@
+MULTIPLIER_HEALT_INIT = 10
+
 class Pokemon:
     def __init__(self, name, health, attack_power, defense, sprites):
         self.name = name
-        self.health = health
+        self.health = health * MULTIPLIER_HEALT_INIT
         self.attack_power = attack_power
         self.defense = defense
         self.defense_multiplier = 1.0  # Para controlar la defensa

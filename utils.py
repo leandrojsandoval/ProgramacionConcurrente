@@ -21,11 +21,11 @@ def draw_characters(current_character, enemy_character):
     scale_factor = 3  # Aumenta el tamaño del sprite al 220%
 
     # Posiciones de los personajes
-    current_character_x = (constants.INITIAL_WIDTH // 2) - 375  # Más a la izquierda
-    current_character_y = constants.INITIAL_HEIGHT - 400  # Un poco más arriba
+    current_character_x = (constants.WINDOW_WIDTH // 2) - 375  # Más a la izquierda
+    current_character_y = constants.WINDOW_HEIGHT - 400  # Un poco más arriba
 
-    enemy_character_x = (constants.INITIAL_WIDTH // 2) + 50  # Un poco más a la derecha
-    enemy_character_y = constants.INITIAL_HEIGHT - 650 # Mantiene la altura original o ajústala si es necesario
+    enemy_character_x = (constants.WINDOW_WIDTH // 2) + 50  # Un poco más a la derecha
+    enemy_character_y = constants.WINDOW_HEIGHT - 650 # Mantiene la altura original o ajústala si es necesario
 
     # Escala y dibuja los sprites
     window.blit(pygame.transform.scale(sprites[current_character.name]['back'], 
