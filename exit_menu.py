@@ -3,12 +3,10 @@ from button import Button
 
 window = game_context.get_window()
 
+# =========================================== Interfaz ===========================================
 
-def confirm_exit(frames, current_frame, frame_counter):
-    button_font = pygame.font.Font(
-        constants.PATH_FONTS + constants.FONT_GAMEPLAY,
-        constants.SIZE_FONT_BUTTONS_MAIN_MENU,
-    )
+
+def create_buttons(button_font):
     confirm_button = Button(
         constants.ACEPTAR,
         0,
@@ -33,7 +31,36 @@ def confirm_exit(frames, current_frame, frame_counter):
         constants.PIXELS_BORDER_BUTTON,
         font=button_font,
     )
+    return confirm_button, cancel_button
 
+
+# =========================================== Eventos ===========================================
+
+
+def handle_events(confirm_button, cancel_button):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()  # Salir del juego completamente
+            return False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if confirm_button.is_clicked():  # Confirmar salida
+                pygame.quit()  # O realizar otra acción para cerrar el juego
+                return False
+            if cancel_button.is_clicked(
+            ):  # Cancelar, volver al menú principal
+                return True  # Indicar que se debe volver al menú principal
+    return None  # Para indicar que no se ha tomado ninguna acción
+
+
+# =========================================== Funcion Principal ===========================================
+
+
+def confirm_exit(frames, current_frame, frame_counter):
+    button_font = pygame.font.Font(
+        constants.PATH_FONTS + constants.FONT_GAMEPLAY,
+        constants.SIZE_FONT_BUTTONS_MAIN_MENU,
+    )
+    confirm_button, cancel_button = create_buttons(button_font)
     utils.position_buttons(confirm_button, cancel_button)
 
     # Establecer el cursor predeterminado al inicio
@@ -61,26 +88,11 @@ def confirm_exit(frames, current_frame, frame_counter):
         cancel_button.draw()
         pygame.display.flip()
 
-        # Obtener la posición del mouse
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-
-        # Cambiar el cursor según la posición del mouse
-        if confirm_button.rect.collidepoint(mouse_x, mouse_y) or cancel_button.rect.collidepoint(mouse_x, mouse_y):
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
-        else:
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema
+        utils.check_change_icon_cursor(confirm_button, cancel_button)
 
         # Manejar eventos
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()  # Salir del juego completamente
-                return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if confirm_button.is_clicked():  # Confirmar salida
-                    pygame.quit(
-                    )  # O realizar otra acción para cerrar el juego
-                    return False
-                if cancel_button.is_clicked(
-                ):  # Cancelar, volver al menú principal
-                    waiting = False
-                    return True  # Indicar que se debe volver al menú principal
+        action = handle_events(confirm_button, cancel_button)
+        if action is True:  # Cancelar, volver al menú principal
+            waiting = False
+        elif action is False:  # Confirmar salida
+            return False

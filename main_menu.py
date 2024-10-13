@@ -9,6 +9,34 @@ window = game_context.get_window()
 # =========================================== Interfaz ===========================================
 
 
+def create_buttons(button_font):
+    play_button = Button(
+        constants.JUGAR,
+        0,
+        300,
+        200,
+        50,
+        constants.COLOR_GREEN_TUPLE,
+        constants.COLOR_LIGHT_GREEN_TUPLE,
+        constants.COLOR_BLACK_TUPLE,
+        constants.PIXELS_BORDER_BUTTON,
+        font=button_font,
+    )
+    exit_button = Button(
+        constants.SALIR,
+        0,
+        300,
+        200,
+        50,
+        constants.COLOR_RED_TUPLE,
+        constants.COLOR_LIGHT_RED_TUPLE,
+        constants.COLOR_BLACK_TUPLE,
+        constants.PIXELS_BORDER_BUTTON,
+        font=button_font,
+    )
+    return play_button, exit_button
+
+
 def show_game_name_by_words(words):
     position_y = constants.POSITION_Y_TITLE_MAIN_MENU
     spacing = constants.SIZE_FONT_TITLE_MAIN_MENU + constants.SPACING_Y_BY_WORD
@@ -34,15 +62,7 @@ def handle_events(play_button, exit_button):
             if exit_button.is_clicked():
                 return constants.EXIT_ACTION
 
-    # Obtener la posición del mouse
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-
-    # Cambiar el cursor según la posición del mouse
-    if play_button.rect.collidepoint(mouse_x, mouse_y) or exit_button.rect.collidepoint(mouse_x, mouse_y):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema
-
+    utils.check_change_icon_cursor(play_button, exit_button)
 
     return None
 
@@ -56,30 +76,7 @@ def show_start_screen():
         constants.PATH_FONTS + constants.FONT_GAMEPLAY,
         constants.SIZE_FONT_BUTTONS_MAIN_MENU,
     )
-    play_button = Button(
-        constants.JUGAR,
-        0,
-        300,
-        200,
-        50,
-        constants.COLOR_GREEN_TUPLE,
-        constants.COLOR_LIGHT_GREEN_TUPLE,
-        constants.COLOR_BLACK_TUPLE,
-        constants.PIXELS_BORDER_BUTTON,
-        font=button_font,
-    )
-    exit_button = Button(
-        constants.SALIR,
-        0,
-        300,
-        200,
-        50,
-        constants.COLOR_RED_TUPLE,
-        constants.COLOR_LIGHT_RED_TUPLE,
-        constants.COLOR_BLACK_TUPLE,
-        constants.PIXELS_BORDER_BUTTON,
-        font=button_font,
-    )
+    play_button, exit_button = create_buttons(button_font)
 
     # Posicionar los botones en la pantalla
     utils.position_buttons(play_button, exit_button)
