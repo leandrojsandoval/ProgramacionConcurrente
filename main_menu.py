@@ -1,4 +1,4 @@
-import constants, game_context, pygame
+import constants, game_context, pygame, utils
 from button import Button
 import os
 
@@ -13,7 +13,8 @@ def load_animation_frames(path_frames, frame_base_name):
     frames = []
     all_files = os.listdir(path_frames)
     for file_name in all_files:
-        if file_name.startswith(frame_base_name) and file_name.endswith(".png"):
+        if file_name.startswith(frame_base_name) and file_name.endswith(
+                ".png"):
             frame_path = os.path.join(path_frames, file_name)
             frame_image = pygame.image.load(frame_path)
             frame_image = pygame.transform.scale(
@@ -35,15 +36,10 @@ def update_background_animation(frames, current_frame, frame_counter,
 # =========================================== Dibujo ===========================================
 
 
-def draw_title(title, title_font, title_color, title_x, title_y):
-    title_text = title_font.render(title, True, title_color)
-    window.blit(title_text, (title_x, title_y))
-
-
 def position_buttons(play_button, exit_button):
-    total_width = (play_button.rect.width +
-                   exit_button.rect.width) + constants.BUTTONS_SPACING_MAIN_MENU
-    start_x = (window.get_width() - total_width) // 2
+    total_width = (play_button.rect.width + exit_button.rect.width
+                   ) + constants.BUTTONS_SPACING_MAIN_MENU
+    start_x = utils.get_center_text_position_x(total_width)
 
     # Asignar las posiciones a los botones
     play_button.rect.x = start_x
@@ -62,9 +58,9 @@ def handle_events(play_button, exit_button):
         if event.type == pygame.QUIT:
             return False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if play_button.is_clicked(pygame.mouse.get_pos()):
+            if play_button.is_clicked():
                 return "play"
-            if exit_button.is_clicked(pygame.mouse.get_pos()):
+            if exit_button.is_clicked():
                 return "exit"
     return None
 
@@ -75,10 +71,6 @@ def handle_events(play_button, exit_button):
 def show_start_screen():
 
     # Inicialización de fuentes y botones
-    title_font = pygame.font.Font(
-        constants.PATH_FONTS + constants.FONT_GAMEPLAY,
-        constants.SIZE_FONT_TITLE_MAIN_MENU,
-    )
     button_font = pygame.font.Font(
         constants.PATH_FONTS + constants.FONT_GAMEPLAY,
         constants.SIZE_FONT_BUTTONS_MAIN_MENU,
@@ -115,9 +107,9 @@ def show_start_screen():
     frame_counter = 0  # Contador para manejar la animación
 
     # Cálculo de la posición del título en el centro de la pantalla
-    title_text = title_font.render(constants.GAME_NAME, True,
-                                   constants.COLOR_WHITE_TUPLE)
-    title_x = (window.get_width() - title_text.get_width()) // 2
+    position_x = utils.calculate_centered_x_position(
+        constants.GAME_NAME, constants.FONT_GAMEPLAY,
+        constants.SIZE_FONT_TITLE_MAIN_MENU)
 
     # Posicionar los botones en la pantalla
     position_buttons(play_button, exit_button)
@@ -126,15 +118,13 @@ def show_start_screen():
         current_frame, frame_counter = update_background_animation(
             frames, current_frame, frame_counter, constants.FRAME_DELAY)
 
-        draw_title(
-            constants.GAME_NAME,
-            title_font,
-            constants.COLOR_WHITE_TUPLE,
-            title_x,
-            constants.POSITION_Y_TITLE_MAIN_MENU,
-        )
-        play_button.draw(window, pygame.mouse.get_pos())
-        exit_button.draw(window, pygame.mouse.get_pos())
+        utils.draw_text(constants.GAME_NAME, constants.FONT_GAMEPLAY,
+                        constants.SIZE_FONT_TITLE_MAIN_MENU,
+                        constants.COLOR_WHITE_TUPLE, position_x,
+                        constants.POSITION_Y_TITLE_MAIN_MENU)
+
+        play_button.draw()
+        exit_button.draw()
         pygame.display.flip()
 
         result = handle_events(play_button, exit_button)

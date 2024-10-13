@@ -1,6 +1,7 @@
-import constants, pygame
+import constants, game_context, pygame
 
 DEFAULT_BORDER_SIZE = 2
+window = game_context.get_window()
 
 
 class Button:
@@ -23,12 +24,11 @@ class Button:
         self.color = color
         self.hover_color = hover_color
         self.border_color = border_color
-        # Si se especifica border_color, se asigna el border_size, de lo contrario se establece como None
         self.border_size = border_size if border_color is None else DEFAULT_BORDER_SIZE
         self.font = font if font else pygame.font.Font(None)
 
-    def draw(self, window, mouse_pos):
-        if self.rect.collidepoint(mouse_pos):
+    def draw(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
             if self.hover_color:
                 color = self.hover_color
             else:
@@ -47,5 +47,5 @@ class Button:
         text_rect = text_surface.get_rect(center=self.rect.center)
         window.blit(text_surface, text_rect)
 
-    def is_clicked(self, mouse_pos):
-        return self.rect.collidepoint(mouse_pos)
+    def is_clicked(self):
+        return self.rect.collidepoint(pygame.mouse.get_pos())

@@ -14,8 +14,8 @@ def confirm_exit():
                           100,
                           100,
                           font_size=40)
-    exit_button.draw(window, pygame.mouse.get_pos())
-    cancel_button.draw(window, pygame.mouse.get_pos())
+    exit_button.draw()
+    cancel_button.draw()
     pygame.display.flip()  # Cambia a flip para actualizar la pantalla
 
     waiting = True
@@ -24,10 +24,9 @@ def confirm_exit():
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                if exit_button.is_clicked(mouse_pos):  # Confirmar salida
+                if exit_button.is_clicked():  # Confirmar salida
                     return False
-                if cancel_button.is_clicked(mouse_pos):  # No salir
+                if cancel_button.is_clicked():  # No salir
                     waiting = False
                     main_menu.show_start_screen(
                     )  # Volver a la pantalla de inicio

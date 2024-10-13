@@ -11,15 +11,21 @@ def display_message(message, x, y, font_size=40):
 
 
 def draw_conditions(current_character, enemy_character):
-    draw_text(f"{current_character.name} HP: {current_character.health}", 40,
-              50, 50)
-    draw_text(f"{enemy_character.name} HP: {enemy_character.health}", 40, 50,
-              100)
+    draw_text(f"{current_character.name} HP: {current_character.health}",
+              constants.FONT_GAMEPLAY, constants.SIZE_CHARACTERS_HEALTH,
+              constants.COLOR_WHITE_TUPLE,
+              constants.POSITION_X_CHARACTERS_HEALTH,
+              constants.POSITION_Y_CURRENT_CHARACTER_HEALTH)
+    draw_text(f"{enemy_character.name} HP: {enemy_character.health}",
+              constants.FONT_GAMEPLAY, constants.SIZE_CHARACTERS_HEALTH,
+              constants.COLOR_WHITE_TUPLE,
+              constants.POSITION_X_CHARACTERS_HEALTH,
+              constants.POSITION_Y_ENEMY_CHARACTER_HEALTH)
 
 
-def draw_buttons(buttons, mouse_pos):
+def draw_buttons(buttons):
     for button in buttons:
-        button.draw(window, mouse_pos)
+        button.draw()
 
 
 def draw_characters(current_character, enemy_character):
@@ -53,7 +59,8 @@ def draw_characters(current_character, enemy_character):
 
     enemy_character_size = (
         int(sprites[enemy_character.name]["front"].get_width() * scale_factor),
-        int(sprites[enemy_character.name]["front"].get_height() * scale_factor),
+        int(sprites[enemy_character.name]["front"].get_height() *
+            scale_factor),
     )
 
     window.blit(
@@ -63,7 +70,17 @@ def draw_characters(current_character, enemy_character):
     )
 
 
-def draw_text(text, size, x, y):
-    font = pygame.font.Font(None, size)
-    text_surface = font.render(text, True, constants.COLOR_BLACK_TUPLE)
-    window.blit(text_surface, (x, y))
+def draw_text(text, font, size, title_color, position_x, position_y):
+    text_font = pygame.font.Font(constants.PATH_FONTS + font, size)
+    text_surface = text_font.render(text, True, title_color)
+    window.blit(text_surface, (position_x, position_y))
+
+
+def get_center_text_position_x(text_width):
+    return (window.get_width() - text_width) // 2
+
+
+def calculate_centered_x_position(text, font_filename, font_size):
+    font = pygame.font.Font(constants.PATH_FONTS + font_filename, font_size)
+    text_surface = font.render(text, True, constants.COLOR_WHITE_TUPLE)
+    return (window.get_width() - text_surface.get_width()) // 2

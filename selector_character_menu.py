@@ -19,7 +19,9 @@ def load_list_characters(sprites):
                 len(characters)),
     ):
         character = list(characters.values())[i]
-        utils.draw_text(character.name, 40, 250,
+        utils.draw_text(character.name, constants.FONT_GAMEPLAY,
+                        constants.SIZE_FONT_CHARACTERS,
+                        constants.COLOR_BLACK_TUPLE, 250,
                         200 + (i - first_visible_index) * 100)
         if current_selection == i:
             pygame.draw.rect(
@@ -64,8 +66,9 @@ def handle_events():
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_DOWN, pygame.K_UP):
                 direction = 1 if event.key == pygame.K_DOWN else -1
-                current_selection = (current_selection + direction
-                                    ) % total_characters  # Movimiento circular
+                current_selection = (
+                    current_selection +
+                    direction) % total_characters  # Movimiento circular
 
                 # Actualizar el índice de desplazamiento visible
                 if current_selection < first_visible_index:
@@ -100,7 +103,9 @@ def main_menu():
     while running:
         window.fill(constants.COLOR_WHITE_TUPLE)
         window.blit(bg_image, (0, 0))
-        utils.draw_text("Elige tu Personaje", 60, 250, 50)
+        utils.draw_text("Elige tu Personaje", constants.FONT_GAMEPLAY,
+                        constants.SIZE_FONT_TITLE_CHARACTER,
+                        constants.COLOR_BLACK_TUPLE, 250, 50)
         load_list_characters(game_context.get_sprites())
 
         selected_character = handle_events()

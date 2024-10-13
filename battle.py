@@ -115,10 +115,6 @@ def handle_enemy_turn(current_character, enemy_character):
     print("===================================================")
 
 
-import constants, game_context, os, pygame, random, utils
-from button import Button
-from selector_character_menu import main_menu  # Importa la función main_menu
-
 # ===================================== Batalla =====================================
 
 
@@ -138,17 +134,15 @@ def start_battle(current_character, enemy_character):
 
         utils.draw_characters(current_character, enemy_character)
 
-        mouse_pos = pygame.mouse.get_pos()
-        utils.draw_buttons(button_actions, mouse_pos)
+        utils.draw_buttons(button_actions)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()  # Salir completamente del juego
                 exit()  # Salir del programa
             if event.type == pygame.MOUSEBUTTONDOWN and turn == constants.PLAYER:
-                mouse_pos = event.pos
                 for button in button_actions:
-                    if button.is_clicked(mouse_pos):
+                    if button.is_clicked():
                         turn = handle_player_action(button, current_character,
                                                     enemy_character)
                         break
@@ -161,17 +155,29 @@ def start_battle(current_character, enemy_character):
 
     # Declarar el ganador
     winner = current_character if current_character.health > 0 else enemy_character
-    utils.draw_text(f"{winner.name} ha ganado!", 60, 250, 250)
     pygame.display.update()
 
     # Mostrar mensaje "Presione Enter para continuar"
     waiting_for_enter = True
+
+    title_character_won = f"{winner.name} ha ganado!"
+
     while waiting_for_enter:
-        window.blit(bg_image, (0, 0))  # Redibuja el fondo
-        utils.draw_text(f"{winner.name} ha ganado!", 60, 250,
-                        250)  # Redibuja el mensaje de ganador
-        utils.draw_text("Presione Enter para continuar", 40, 250,
-                        350)  # Mensaje de continuar
+        window.blit(bg_image, (0, 0))
+        utils.draw_text(
+            title_character_won, constants.FONT_GAMEPLAY,
+            constants.SIZE_TITLE_CHARACTER_WON, constants.COLOR_WHITE_TUPLE,
+            utils.calculate_centered_x_position(
+                title_character_won, constants.FONT_GAMEPLAY,
+                constants.SIZE_TITLE_CHARACTER_WON),
+            constants.POSITION_Y_TITLE_CHARACTER_WON)
+        utils.draw_text(
+            constants.MESSAGE_CHARACTER_WON, constants.FONT_GAMEPLAY,
+            constants.SIZE_MESSAGE_CHARACTER_WON, constants.COLOR_WHITE_TUPLE,
+            utils.calculate_centered_x_position(
+                constants.MESSAGE_CHARACTER_WON, constants.FONT_GAMEPLAY,
+                constants.SIZE_MESSAGE_CHARACTER_WON),
+            constants.POSITION_Y_MESSAGE_CHARACTER_WON)
         pygame.display.update()
 
         for event in pygame.event.get():
