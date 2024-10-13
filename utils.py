@@ -84,3 +84,7 @@ def calculate_centered_x_position(text, font_filename, font_size):
     font = pygame.font.Font(constants.PATH_FONTS + font_filename, font_size)
     text_surface = font.render(text, True, constants.COLOR_WHITE_TUPLE)
     return (window.get_width() - text_surface.get_width()) // 2
+
+def split_text(text):
+    words = text.split()
+    return words

@@ -9,7 +9,8 @@ bg_images = [
     if file.endswith((".png", ".jpg")) and "background" in file
 ]
 bg_image_path = os.path.join(
-    constants.NAME_FOLDER_BACKGROUNDS, random.choice(bg_images))  # Selecciona una imagen aleatoriamente
+    constants.NAME_FOLDER_BACKGROUNDS,
+    random.choice(bg_images))  # Selecciona una imagen aleatoriamente
 bg_image = pygame.image.load(bg_image_path)
 
 # Escalar la imagen de fondo a las dimensiones de la ventana
@@ -59,7 +60,7 @@ def create_actions_buttons():
                 position_x,
                 position_y,
                 constants.BUTTON_WIDTH,
-                50,
+                constants.BUTTON_HEIGHT,
                 button_color,
                 button_hover_color,
                 constants.COLOR_BLACK_TUPLE,
@@ -164,6 +165,7 @@ def start_battle(current_character, enemy_character):
 
     while waiting_for_enter:
         window.blit(bg_image, (0, 0))
+
         utils.draw_text(
             title_character_won, constants.FONT_GAMEPLAY,
             constants.SIZE_TITLE_CHARACTER_WON, constants.COLOR_WHITE_TUPLE,
@@ -171,6 +173,7 @@ def start_battle(current_character, enemy_character):
                 title_character_won, constants.FONT_GAMEPLAY,
                 constants.SIZE_TITLE_CHARACTER_WON),
             constants.POSITION_Y_TITLE_CHARACTER_WON)
+
         utils.draw_text(
             constants.MESSAGE_CHARACTER_WON, constants.FONT_GAMEPLAY,
             constants.SIZE_MESSAGE_CHARACTER_WON, constants.COLOR_WHITE_TUPLE,
@@ -178,12 +181,15 @@ def start_battle(current_character, enemy_character):
                 constants.MESSAGE_CHARACTER_WON, constants.FONT_GAMEPLAY,
                 constants.SIZE_MESSAGE_CHARACTER_WON),
             constants.POSITION_Y_MESSAGE_CHARACTER_WON)
+
         pygame.display.update()
 
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
-                pygame.quit()  # Salir completamente del juego
-                exit()  # Salir del programa
+                pygame.quit()
+                exit()
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 waiting_for_enter = False  # Cuando se presiona Enter, salir del bucle
 
