@@ -3,6 +3,11 @@ import constants, game_context, pygame
 window = game_context.get_window()
 sprites = game_context.get_sprites()
 
+def display_message(message, x, y, font_size=40):
+    font = pygame.font.Font(None, font_size)
+    text = font.render(message, True, constants.COLOR_WHITE_TUPLE)
+    window.blit(text, (x, y))
+
 def draw_conditions(current_character, enemy_character):
     draw_text(f"{current_character.name} HP: {current_character.health}", 40, 50, 50)
     draw_text(f"{enemy_character.name} HP: {enemy_character.health}", 40, 50, 100)
@@ -36,5 +41,5 @@ def draw_characters(current_character, enemy_character):
 
 def draw_text(text, size, x, y):
     font = pygame.font.Font(None, size)
-    text_surface = font.render(text, True, constants.BLACK)
+    text_surface = font.render(text, True, constants.COLOR_BLACK_TUPLE)
     window.blit(text_surface, (x, y))

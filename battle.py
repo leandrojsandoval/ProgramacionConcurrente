@@ -1,5 +1,5 @@
-import constants, game_context, os, pygame, random, utils
-from boton import Boton
+import constants, game_context, selector_character_menu, os, pygame, random, utils
+from button import Button
 
 #===================================== Variables =====================================
 
@@ -16,11 +16,11 @@ bg_image = pygame.transform.scale(bg_image, (constants.INITIAL_WIDTH, constants.
 
 def create_buttons():
     buttons = []
+    button_font = pygame.font.Font(constants.PATH_FONTS + constants.FONT_GAMEPLAY, constants.SIZE_FONT_BUTTONS_BATTLE_MENU)
     for i, action in enumerate([constants.ATACAR, constants.DEFENDER, constants.DESCANSAR, constants.CONCENTRARSE]):
-
-        x = (constants.INITIAL_WIDTH - (constants.BUTTON_WIDTH * constants.TOTAL_BUTTONS + constants.BUTTON_SPACING * (constants.TOTAL_BUTTONS - 1))) // 2 + i * (constants.BUTTON_WIDTH + constants.BUTTON_SPACING)
+        x = (constants.INITIAL_WIDTH - (constants.BUTTON_WIDTH * constants.TOTAL_BUTTONS + constants.BUTTONS_SPACING_BATTLE_ACTIONS * (constants.TOTAL_BUTTONS - 1))) // 2 + i * (constants.BUTTON_WIDTH + constants.BUTTONS_SPACING_BATTLE_ACTIONS)
         y = constants.INITIAL_HEIGHT - 100
-        buttons.append(Boton(action, x, y, constants.BUTTON_WIDTH, 50, (100, 200, 100), (150, 250, 150)))
+        buttons.append(Button(action, x, y, constants.BUTTON_WIDTH, 50, constants.COLOR_GREEN_TUPLE, constants.COLOR_LIGHT_GREEN_TUPLE, constants.COLOR_BLACK_TUPLE, constants.PIXELS_BORDER_BUTTON, button_font))
     return buttons
 
 #===================================== Batalla =====================================
@@ -60,6 +60,12 @@ def handle_enemy_turn(current_character, enemy_character):
     print(f"{current_character.name} ahora tiene {current_character.health} HP.")
     print("===================================================")
 
+import constants, game_context, os, pygame, random, utils
+from button import Button
+from selector_character_menu import main_menu  # Importa la función main_menu
+
+# ===================================== Batalla =====================================
+
 def start_battle(current_character, enemy_character):
     running = True
     turn = constants.PLAYER
@@ -74,7 +80,6 @@ def start_battle(current_character, enemy_character):
             running = False
             continue
 
-        # Dibuja los personajes en sus nuevas posiciones utilizando la función mejorada
         utils.draw_characters(current_character, enemy_character)
 
         mouse_pos = pygame.mouse.get_pos()
@@ -82,7 +87,8 @@ def start_battle(current_character, enemy_character):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()  # Salir completamente del juego
+                exit()  # Salir del programa
             if event.type == pygame.MOUSEBUTTONDOWN and turn == constants.PLAYER:
                 mouse_pos = event.pos
                 for button in button_actions:
@@ -96,6 +102,25 @@ def start_battle(current_character, enemy_character):
 
         pygame.display.update()
 
+    # Declarar el ganador
     winner = current_character if current_character.health > 0 else enemy_character
     utils.draw_text(f"{winner.name} ha ganado!", 60, 250, 250)
     pygame.display.update()
+
+    # Mostrar mensaje "Presione Enter para continuar"
+    waiting_for_enter = True
+    while waiting_for_enter:
+        window.blit(bg_image, (0, 0))  # Redibuja el fondo
+        utils.draw_text(f"{winner.name} ha ganado!", 60, 250, 250)  # Redibuja el mensaje de ganador
+        utils.draw_text("Presione Enter para continuar", 40, 250, 350)  # Mensaje de continuar
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()  # Salir completamente del juego
+                exit()  # Salir del programa
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                waiting_for_enter = False  # Cuando se presiona Enter, salir del bucle
+
+    # Volver al menú principal, sin cerrar pygame
+    selector_character_menu.main_menu()
