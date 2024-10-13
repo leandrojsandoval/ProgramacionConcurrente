@@ -1,0 +1,33 @@
+{
+    "name": "Nidoqueen",
+    "sprites": {
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/31.png",
+        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/31.png"
+    },
+    "stats": [
+        {
+            "stat_name": "hp",
+            "base_stat": 90
+        },
+        {
+            "stat_name": "attack",
+            "base_stat": 92
+        },
+        {
+            "stat_name": "defense",
+            "base_stat": 87
+        },
+        {
+            "stat_name": "special-attack",
+            "base_stat": 75
+        },
+        {
+            "stat_name": "special-defense",
+            "base_stat": 85
+        },
+        {
+            "stat_name": "speed",
+            "base_stat": 76
+        }
+    ]
+}
