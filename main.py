@@ -1,4 +1,4 @@
-import battle, exit_menu, main_menu, game_context, selector_character_menu, pygame, random, utils
+import battle, copy, exit_menu, main_menu, game_context, selector_character_menu, pygame, random, utils
 
 pygame.init()
 window = game_context.get_window()
@@ -17,20 +17,8 @@ def game_loop():
             ]
             enemy_character = (random.choice(available_characters)
                                if available_characters else None)
-            if enemy_character:
-                battle.start_battle(selected_character, enemy_character)
-            else:
-                print("No hay enemigos disponibles para la batalla.")
-
-        # Mostrar mensaje en pantalla
-        window.fill((0, 0, 0))  # Limpiar la pantalla con color negro
-        utils.display_message("¿Quieres jugar otra batalla? (s/n)",
-                              100,
-                              200,
-                              font_size=50)
-
-        if not wait_for_input():  # Ahora esta función está definida
-            running = False
+            battle.start_battle(copy.deepcopy(selected_character),
+                                copy.deepcopy(enemy_character))
 
 
 def wait_for_input():

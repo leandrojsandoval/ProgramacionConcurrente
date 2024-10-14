@@ -8,6 +8,7 @@ class Character:
         self.health = health * MULTIPLIER_HEALT_INIT
         self.attack_power = attack_power
         self.defense = defense
+        self.vida_maxima = health * MULTIPLIER_HEALT_INIT
         self.defense_multiplier = 1.0  # Para controlar la defensa
         self.focused_attack_multiplier = 1.0  # Para controlar el ataque concentrado
         self.sprites = sprites  # Almacena las rutas locales de los sprites
@@ -57,8 +58,11 @@ class Character:
 
     def rest(self):
         # Recuperar el 20% de la salud actual
-        recovery = int(self.health * 0.2)
-        self.health += recovery
+        recovery = int(self.vida_maxima * 0.2)
+        if self.health + recovery < self.vida_maxima:
+            self.health += recovery
+        else:
+            self.health = self.vida_maxima
 
     def focus(self):
         self.focused_attack_multiplier = 2.0  # Duplica el daño del próximo ataque
