@@ -1,33 +1,8 @@
 {
     "name": "Bulbasaur",
-    "sprites": {
-        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png"
-    },
-    "stats": [
-        {
-            "stat_name": "hp",
-            "base_stat": 45
-        },
-        {
-            "stat_name": "attack",
-            "base_stat": 49
-        },
-        {
-            "stat_name": "defense",
-            "base_stat": 49
-        },
-        {
-            "stat_name": "special-attack",
-            "base_stat": 65
-        },
-        {
-            "stat_name": "special-defense",
-            "base_stat": 65
-        },
-        {
-            "stat_name": "speed",
-            "base_stat": 45
-        }
-    ]
+    "hp": 45,
+    "attack": 49,
+    "defense": 49,
+    "front_sprite_path": "sprites/bulbasaur_front_default.png",
+    "back_sprite_path": "sprites/bulbasaur_back_default.png"
 }

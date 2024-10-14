@@ -12,11 +12,10 @@ def game_loop():
         if selected_character:
             available_characters = [
                 character
-                for name, character in game_context.get_characters().items()
+                for character in game_context.get_characters()  # Ahora es una lista
                 if character != selected_character
             ]
-            enemy_character = (random.choice(available_characters)
-                               if available_characters else None)
+            enemy_character = random.choice(available_characters)
             battle.start_battle(copy.deepcopy(selected_character),
                                 copy.deepcopy(enemy_character))
 

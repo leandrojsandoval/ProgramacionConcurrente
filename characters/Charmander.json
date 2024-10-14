@@ -1,33 +1,8 @@
 {
     "name": "Charmander",
-    "sprites": {
-        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
-        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png"
-    },
-    "stats": [
-        {
-            "stat_name": "hp",
-            "base_stat": 39
-        },
-        {
-            "stat_name": "attack",
-            "base_stat": 52
-        },
-        {
-            "stat_name": "defense",
-            "base_stat": 43
-        },
-        {
-            "stat_name": "special-attack",
-            "base_stat": 60
-        },
-        {
-            "stat_name": "special-defense",
-            "base_stat": 50
-        },
-        {
-            "stat_name": "speed",
-            "base_stat": 65
-        }
-    ]
+    "hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "front_sprite_path": "sprites/charmander_front_default.png",
+    "back_sprite_path": "sprites/charmander_back_default.png"
 }

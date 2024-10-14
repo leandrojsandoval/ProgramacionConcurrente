@@ -19,9 +19,10 @@ def load_list_characters(sprites):
     for i in range(
             first_visible_index,
             min(first_visible_index + visible_characters_count,
-                len(characters)),
+                len(characters))
     ):
-        character = list(characters.values())[i]
+        #character = list(characters.values())[i]
+        character = characters[i]
         utils.draw_text(character.name, constants.FONT_GAMEPLAY,
                         constants.SIZE_FONT_CHARACTERS,
                         constants.COLOR_BLACK_TUPLE, 250,
@@ -35,7 +36,8 @@ def load_list_characters(sprites):
             )
 
     # Dibuja el sprite del personaje seleccionado en una posición fija
-    selected_character = list(characters.values())[current_selection]
+    selected_character = characters[current_selection]
+    #list(characters.values())[current_selection]
     try:
         image_to_draw = sprites[selected_character.name]["front"]
         scaled_image = pygame.transform.scale(
@@ -61,7 +63,11 @@ def load_list_characters(sprites):
 
 def handle_events():
     global current_selection, first_visible_index
-    characters_names = list(characters.keys())
+    characters_names = []
+    for c in characters:
+        characters_names.append(c.name)
+        
+    #characters_names = list(characters.keys())
     total_characters = len(characters_names)
 
     for event in pygame.event.get():
@@ -85,17 +91,15 @@ def handle_events():
 
             elif event.key == pygame.K_RETURN:
                 selected_name = characters_names[current_selection]
-                return characters[selected_name]
+                return characters[current_selection]
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = event.pos
-            for i, name in enumerate(
-                    characters_names[first_visible_index:first_visible_index +
-                                     visible_characters_count]):
-                if 250 <= mouse_x <= 550 and (200 + i * 100) <= mouse_y < (
-                        250 + i * 100):
-                    current_selection = first_visible_index + i
-                    return characters[name]
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = event.pos
+                for i in range(visible_characters_count):
+                    character = characters[first_visible_index + i]  # Acceder directamente a la lista
+                    if 250 <= mouse_x <= 550 and (200 + i * 100) <= mouse_y < (250 + i * 100):
+                        current_selection = first_visible_index + i
+                        return character  # Devolver directamente el personaje
 
     return None
 

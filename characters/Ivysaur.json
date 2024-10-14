@@ -1,33 +1,8 @@
 {
     "name": "Ivysaur",
-    "sprites": {
-        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
-        "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/2.png"
-    },
-    "stats": [
-        {
-            "stat_name": "hp",
-            "base_stat": 60
-        },
-        {
-            "stat_name": "attack",
-            "base_stat": 62
-        },
-        {
-            "stat_name": "defense",
-            "base_stat": 63
-        },
-        {
-            "stat_name": "special-attack",
-            "base_stat": 80
-        },
-        {
-            "stat_name": "special-defense",
-            "base_stat": 80
-        },
-        {
-            "stat_name": "speed",
-            "base_stat": 60
-        }
-    ]
+    "hp": 60,
+    "attack": 62,
+    "defense": 63,
+    "front_sprite_path": "sprites/ivysaur_front_default.png",
+    "back_sprite_path": "sprites/ivysaur_back_default.png"
 }

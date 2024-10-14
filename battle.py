@@ -76,7 +76,7 @@ def create_actions_buttons():
 def handle_player_action(button, current_character, enemy_character):
     action = button.text
     if action == constants.ATACAR:
-        damage = current_character.attack(enemy_character)
+        damage = current_character.attack_enemy(enemy_character)
         print("===================================================")
         print(
             f"{current_character.name} atacó a {enemy_character.name} causando {damage} de daño."
@@ -107,9 +107,9 @@ def handle_player_action(button, current_character, enemy_character):
 
 
 def handle_enemy_turn(current_character, enemy_character):
-    damage = enemy_character.attack(current_character)
+    damage = enemy_character.attack_enemy(current_character)
     print(
-        f"{enemy_character.name} atacó a {current_character.name} causando {enemy_character.attack_power} de daño."
+        f"{enemy_character.name} atacó a {current_character.name} causando {enemy_character.attack} de daño."
     )
     print(
         f"{current_character.name} ahora tiene {current_character.health} HP.")
@@ -123,7 +123,7 @@ def start_battle(current_character, enemy_character):
     running = True
     turn = constants.PLAYER
     button_actions = create_actions_buttons()
-
+    print(enemy_character)
     # Establecer el cursor predeterminado al inicio
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 

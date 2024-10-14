@@ -1,4 +1,4 @@
-import api, constants, json, os, pygame
+import api, archivo, constants, json, os, pygame
 from character import Character
 
 # ===================================== Ventana =====================================
@@ -9,9 +9,10 @@ pygame.display.set_caption(constants.GAME_NAME)
 
 # ===================================== Personajes =====================================
 
-
+"""""""""
 def load_characters_from_json():
     characters = {}
+    sprites = []
 
     # Verificar si la carpeta de personajes existe
     if not os.path.exists(constants.NAME_FOLDER_CHARACTERS):
@@ -28,13 +29,21 @@ def load_characters_from_json():
             with open(f"{constants.NAME_FOLDER_CHARACTERS}/{archivo}",
                       "r") as f:
                 character_data = json.load(f)
-                character = Character.from_json(character_data)
+                name = character_data.get("name", "No disponible")
+                health = character_data["stats"][0]["base_stat"]
+                attack = character_data["stats"][1]["base_stat"]
+                defense = character_data["stats"][2]["base_stat"]
+                character = Character(name.capitalize(), health, attack,
+                                      defense, sprites)
+                print(character.to_string())
                 characters[character.name] = character
 
     return characters
+"""
 
+#characters = load_characters_from_json()
 
-characters = load_characters_from_json()
+characters = archivo.load_characters_from_json(constants.NAME_FOLDER_CHARACTERS)
 
 # ===================================== Sprites =====================================
 
@@ -63,7 +72,7 @@ def load_sprites():
     return sprites
 
 
-sprites = load_sprites()
+#sprites = load_sprites()
 
 # ===================================== Gets =====================================
 
@@ -73,8 +82,25 @@ def get_window():
 
 
 def get_sprites():
-    return sprites
+    characters = get_characters()
+    sprites = {}
 
+    for c in characters:
+        # Cargar los sprites desde el sistema de archivos
+        front_sprite_path = c.sprites["front_default"]  # Ruta del sprite frontal
+        back_sprite_path = c.sprites["back_default"]    # Ruta del sprite trasero
+
+        # Cargar las imágenes con pygame
+        front_sprite = pygame.image.load(front_sprite_path).convert_alpha()
+        back_sprite = pygame.image.load(back_sprite_path).convert_alpha()
+
+        # Almacenar las imágenes cargadas en el diccionario
+        sprites[c.name] = {
+            "front": front_sprite,
+            "back": back_sprite
+        }
+
+    return sprites
 
 def get_characters():
     return characters

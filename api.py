@@ -43,6 +43,7 @@ def get_character_by_id(url, character_id, path_folder_characters):
         )
 
 
+
 def download_sprite(url, character_name, type_sprite):
     sprite_folder = "sprites"
     sprite_path = f"{sprite_folder}/{character_name}_{type_sprite}.png"
