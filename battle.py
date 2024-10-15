@@ -3,18 +3,20 @@ from button import Button
 
 # ===================================== Variables =====================================
 
+window = game_context.get_window()
+
 # Cargar imágenes de fondo aleatoriamente
 bg_images = [
-    file for file in os.listdir(constants.NAME_FOLDER_BACKGROUNDS)
-    if file.endswith((".png", ".jpg")) and "background" in file
+    file for file in os.listdir(constants.PATH_BACKGROUNDS)
+    if file.endswith((constants.EXTENSION_PNG,
+                      constants.EXTENSION_JPG)) and "background" in file
 ]
 bg_image_path = os.path.join(
-    constants.NAME_FOLDER_BACKGROUNDS,
+    constants.PATH_BACKGROUNDS,
     random.choice(bg_images))  # Selecciona una imagen aleatoriamente
 bg_image = pygame.image.load(bg_image_path)
 
 # Escalar la imagen de fondo a las dimensiones de la ventana
-window = game_context.get_window()
 bg_image = pygame.transform.scale(
     bg_image, (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
 
@@ -116,14 +118,14 @@ def handle_enemy_turn(current_character, enemy_character):
     print("===================================================")
 
 
-# ===================================== Batalla =====================================
+# ===================================== Funcion Principal =====================================
 
 
 def start_battle(current_character, enemy_character):
     running = True
     turn = constants.PLAYER
     button_actions = create_actions_buttons()
-    print(enemy_character)
+
     # Establecer el cursor predeterminado al inicio
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
@@ -203,4 +205,4 @@ def start_battle(current_character, enemy_character):
                 waiting_for_enter = False  # Cuando se presiona Enter, salir del bucle
 
     # Volver al menú principal, sin cerrar pygame
-    selector_character_menu.main_menu()
+    selector_character_menu.selector_menu()

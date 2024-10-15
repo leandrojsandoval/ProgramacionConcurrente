@@ -4,12 +4,6 @@ window = game_context.get_window()
 sprites = game_context.get_sprites()
 
 
-def display_message(message, x, y, font_size=40):
-    font = pygame.font.Font(None, font_size)
-    text = font.render(message, True, constants.COLOR_WHITE_TUPLE)
-    window.blit(text, (x, y))
-
-
 def draw_conditions(current_character, enemy_character):
     draw_text(f"{current_character.name} HP: {current_character.health}",
               constants.FONT_GAMEPLAY, constants.SIZE_CHARACTERS_HEALTH,
@@ -59,8 +53,7 @@ def draw_characters(current_character, enemy_character):
 
     enemy_character_size = (
         int(sprites[enemy_character.name]["front"].get_width() * scale_factor),
-        int(sprites[enemy_character.name]["front"].get_height() *
-            scale_factor),
+        int(sprites[enemy_character.name]["front"].get_height() * scale_factor),
     )
 
     window.blit(
@@ -76,26 +69,17 @@ def draw_text(text, font, size, title_color, position_x, position_y):
     window.blit(text_surface, (position_x, position_y))
 
 
-def get_center_text_position_x(text_width):
-    return (window.get_width() - text_width) // 2
-
-
 def calculate_centered_x_position(text, font_filename, font_size):
     font = pygame.font.Font(constants.PATH_FONTS + font_filename, font_size)
     text_surface = font.render(text, True, constants.COLOR_WHITE_TUPLE)
     return (window.get_width() - text_surface.get_width()) // 2
 
 
-def split_text(text):
-    words = text.split()
-    return words
-
-
 def position_buttons(first_option_button, second_option_button):
     total_width = (
         first_option_button.rect.width +
         second_option_button.rect.width) + constants.BUTTONS_SPACING_MAIN_MENU
-    start_x = get_center_text_position_x(total_width)
+    start_x = (window.get_width() - total_width) // 2
 
     # Asignar las posiciones a los botones
     first_option_button.rect.x = start_x
@@ -106,43 +90,23 @@ def position_buttons(first_option_button, second_option_button):
     second_option_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
 
 
-def load_animation_frames(path_frames, frame_base_name):
-    frames = []
-    all_files = os.listdir(path_frames)
-    for file_name in all_files:
-        if file_name.startswith(frame_base_name) and file_name.endswith(
-                constants.EXTENSION_PNG):
-            frame_path = os.path.join(path_frames, file_name)
-            frame_image = pygame.image.load(frame_path)
-            frame_image = pygame.transform.scale(
-                frame_image, (window.get_width(), window.get_height()))
-            frames.append(frame_image)
-    return frames
-
-
-def update_background_animation(frames, current_frame, frame_counter,
-                                frame_delay):
-    frame_counter += 1
-    if frame_counter >= frame_delay:
-        frame_counter = 0
-        current_frame = (current_frame + 1) % len(frames)
-    window.blit(frames[current_frame], (0, 0))
-    return current_frame, frame_counter
-
 def check_change_icon_cursor(required_button, *optional_buttons):
     # Obtener la posición del mouse
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    
+
     # Comprobar si el cursor está sobre el botón obligatorio
     if required_button.rect.collidepoint(mouse_x, mouse_y):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
+        pygame.mouse.set_cursor(
+            pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
         return  # No chequeamos más botones si estamos sobre el obligatorio
-    
+
     # Comprobar los botones opcionales
     for button in optional_buttons:
         if button.rect.collidepoint(mouse_x, mouse_y):
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
+            pygame.mouse.set_cursor(
+                pygame.SYSTEM_CURSOR_HAND)  # Cursor de mano del sistema
             return
 
     # Si no se colisiona con ningún botón, se restablece el cursor
-    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema
+    pygame.mouse.set_cursor(
+        pygame.SYSTEM_CURSOR_ARROW)  # Cursor de flecha del sistema

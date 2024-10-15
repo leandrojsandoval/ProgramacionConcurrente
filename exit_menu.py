@@ -1,4 +1,5 @@
 import constants, game_context, pygame, utils
+from background_animated import BackgroundAnimated
 from button import Button
 
 window = game_context.get_window()
@@ -41,21 +42,19 @@ def handle_events(confirm_button, cancel_button):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()  # Salir del juego completamente
-            return False
+            return constants.QUIT_ACTION  # Indicar que se ha seleccionado salir del juego
         if event.type == pygame.MOUSEBUTTONDOWN:
             if confirm_button.is_clicked():  # Confirmar salida
-                pygame.quit()  # O realizar otra acción para cerrar el juego
-                return False
-            if cancel_button.is_clicked(
-            ):  # Cancelar, volver al menú principal
-                return True  # Indicar que se debe volver al menú principal
-    return None  # Para indicar que no se ha tomado ninguna acción
+                return constants.CONFIRM_ACTION  # Retornar cadena significativa
+            if cancel_button.is_clicked():  # Cancelar, volver al menú principal
+                return constants.CANCEL_ACTION  # Retornar cadena significativa
+    return None  # Indicar que no se ha tomado ninguna acción
 
 
 # =========================================== Funcion Principal ===========================================
 
 
-def confirm_exit(frames, current_frame, frame_counter):
+def confirm_exit(background_animated=None):
     button_font = pygame.font.Font(
         constants.PATH_FONTS + constants.FONT_GAMEPLAY,
         constants.SIZE_FONT_BUTTONS_MAIN_MENU,
@@ -66,22 +65,27 @@ def confirm_exit(frames, current_frame, frame_counter):
     # Establecer el cursor predeterminado al inicio
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
+    if (background_animated == None):
+        background_animated = BackgroundAnimated(
+            constants.PATH_BACKGROUND_ANIMATED, constants.FRAME_BASE_NAME,
+            constants.FRAME_DELAY)
+
     waiting = True
     while waiting:
-        # Continuar la animación del fondo
-        current_frame, frame_counter = utils.update_background_animation(
-            frames, current_frame, frame_counter, constants.FRAME_DELAY)
+        # Actualizar y dibujar el fondo
+        background_animated.update()
+        background_animated.draw_background()
 
         # Mostrar el mensaje de confirmación de salida
-        utils.draw_text(
+        position_x_center = utils.calculate_centered_x_position(
             constants.MENSAJE_DE_CONFIRMACION_SALIDA, constants.FONT_GAMEPLAY,
-            constants.SIZE_FONT_TITLE_CONFIRM_EXIT,
-            constants.COLOR_WHITE_TUPLE,
-            utils.calculate_centered_x_position(
-                constants.MENSAJE_DE_CONFIRMACION_SALIDA,
-                constants.FONT_GAMEPLAY,
-                constants.SIZE_FONT_TITLE_CONFIRM_EXIT),
-            constants.POSITION_Y_TITLE_CONFIRM_EXIT)
+            constants.SIZE_FONT_TITLE_CONFIRM_EXIT)
+
+        utils.draw_text(constants.MENSAJE_DE_CONFIRMACION_SALIDA,
+                        constants.FONT_GAMEPLAY,
+                        constants.SIZE_FONT_TITLE_CONFIRM_EXIT,
+                        constants.COLOR_WHITE_TUPLE, position_x_center,
+                        constants.POSITION_Y_TITLE_CONFIRM_EXIT)
 
         # Dibujar los botones de confirmar y cancelar
         confirm_button.draw()
@@ -92,9 +96,7 @@ def confirm_exit(frames, current_frame, frame_counter):
 
         # Manejar eventos
         action = handle_events(confirm_button, cancel_button)
-        if action is True:  # Cancelar, volver al menú principal
+        if action == constants.CANCEL_ACTION:  # Cancelar, volver al menú principal
             waiting = False  # Salir del bucle, volver al menú
-        elif action is False:  # Confirmar salida
-            return False  # Cerrar el juego
-
-    return True  # Volver al menú principal (en caso de que la lógica lo requiera)
+        elif action == constants.CONFIRM_ACTION or action == constants.QUIT_ACTION:  # Confirmar salida o cerrar juego desde la ventana
+            return action  # Cerrar el juego

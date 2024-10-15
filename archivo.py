@@ -1,17 +1,13 @@
-import os
-import requests
-import json
-import api
-import constants
+import constants, json, os
 from character import Character
+
 
 def load_characters_from_json(output_folder):
     characters = []
 
     # Listar todos los archivos JSON en la carpeta de salida
     for filename in os.listdir(output_folder):
-        if filename.endswith(
-                ".json"):  # Solo interesan los archivos de estadísticas
+        if filename.endswith(constants.EXTENSION_JSON):
             file_path = os.path.join(output_folder, filename)
 
             # Leer el archivo JSON
@@ -39,7 +35,3 @@ def load_characters_from_json(output_folder):
                 characters.append(character)
 
     return characters
-
-
-# Uso de la función
-#download_and_save_character_data(200, constants.URL_API, constants.NAME_FOLDER_CHARACTERS)
