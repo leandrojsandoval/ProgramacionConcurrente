@@ -75,19 +75,16 @@ def calculate_centered_x_position(text, font_filename, font_size):
     return (window.get_width() - text_surface.get_width()) // 2
 
 
-def position_buttons(first_option_button, second_option_button):
-    total_width = (
-        first_option_button.rect.width +
-        second_option_button.rect.width) + constants.BUTTONS_SPACING_MAIN_MENU
+def position_buttons(first_button, second_button):
+    total_width = (first_button.rect.width + second_button.rect.width) + constants.BUTTONS_SPACING_MAIN_MENU
     start_x = (window.get_width() - total_width) // 2
 
     # Asignar las posiciones a los botones
-    first_option_button.rect.x = start_x
-    first_option_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
+    first_button.rect.x = start_x
+    first_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
 
-    second_option_button.rect.x = (start_x + first_option_button.rect.width +
-                                   constants.BUTTONS_SPACING_MAIN_MENU)
-    second_option_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
+    second_button.rect.x = (start_x + first_button.rect.width + constants.BUTTONS_SPACING_MAIN_MENU)
+    second_button.rect.y = constants.POSITION_Y_BUTTONS_MAIN_MENU
 
 
 def check_change_icon_cursor(required_button, *optional_buttons):
